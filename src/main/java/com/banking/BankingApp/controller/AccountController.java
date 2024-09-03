@@ -20,6 +20,7 @@ public class AccountController
     @GetMapping("/accounts")
     public List<AccountEntity> getAccounts()
     {
+        logger.info("In getAccounts in AccountService class");
         return service.getAccounts();
     }
 
@@ -40,5 +41,10 @@ public class AccountController
     public void deposit(@PathVariable int accountNumber, @PathVariable double amount)
     {
         service.deposit(amount, accountNumber);
+    }
+    @PutMapping("/accounts/{accountNumber}/withdrawalAmount/{amount}")
+    public void withdraw(@PathVariable int accountNumber, @PathVariable double amount)
+    {
+        service.withdraw(amount, accountNumber);
     }
 }

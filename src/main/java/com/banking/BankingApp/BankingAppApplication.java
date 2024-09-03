@@ -2,12 +2,11 @@ package com.banking.BankingApp;
 
 import com.banking.BankingApp.exception.AccountNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
-import java.util.Scanner;
 @Slf4j
 @SpringBootApplication
 public class BankingAppApplication
@@ -16,8 +15,8 @@ public class BankingAppApplication
 	public static void main(String[] args) throws AccountNotFoundException {
 		ApplicationContext context = SpringApplication.run(BankingAppApplication.class, args);
 
-		/*BankAccount bankAccount = context.getBean(BankAccount.class);
-		AccountsService service = context.getBean(AccountsService.class);
+		/* BankAccount bankAccount = context.getBean(BankAccount.class);
+		AccountsModification service = context.getBean(AccountsModification.class);
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter your account number");
@@ -66,7 +65,7 @@ public class BankingAppApplication
 				System.out.println("This option does not exist");
 		}
 
-		System.exit(0);*/
+		System.exit(0); */
 	}
 
 }

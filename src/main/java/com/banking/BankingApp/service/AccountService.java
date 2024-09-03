@@ -3,6 +3,7 @@ package com.banking.BankingApp.service;
 import com.banking.BankingApp.entity.AccountEntity;
 import com.banking.BankingApp.model.BankAccount;
 import com.banking.BankingApp.repository.AccountRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class AccountService
         return accountRepository.findById(accId).orElse(new AccountEntity());
     }
 
+    @Transactional
     public AccountEntity deposit(double amount, int accountNumber)
     {
         AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
@@ -34,6 +36,7 @@ public class AccountService
         return accountRepository.save(account);
     }
 
+    @Transactional
     public AccountEntity withdraw(double amount, int accountNumber)
     {
         AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
@@ -47,6 +50,7 @@ public class AccountService
         return accountRepository.save(account);
     }
 
+    @Transactional
     public void addAccount(AccountEntity account)
     {
         accountRepository.save(account);

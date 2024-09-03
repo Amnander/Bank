@@ -12,10 +12,10 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class AccountsService
+public class AccountsModification
 {
 
-    private static final Logger logger = LogManager.getLogger(AccountsService.class);
+    private static final Logger logger = LogManager.getLogger(AccountsModification.class);
     List<BankAccount> bankAccounts = Arrays.asList(
             new BankAccount(101,"Aman",123411, 2000.00),
             new BankAccount(102,"Smith",123422, 1000.00),

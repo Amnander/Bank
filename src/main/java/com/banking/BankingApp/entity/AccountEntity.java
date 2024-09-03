@@ -56,7 +56,8 @@ public class AccountEntity
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Account{" +
                 "accountId=" + accountId +
                 ", accountHolderName='" + accountHolderName + '\'' +
@@ -66,14 +67,16 @@ public class AccountEntity
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (!(o instanceof AccountEntity account)) return false;
         return getAccountId() == account.getAccountId() && getAccountNumber() == account.getAccountNumber() && Double.compare(getAccountBalance(), account.getAccountBalance()) == 0 && Objects.equals(getAccountHolderName(), account.getAccountHolderName());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getAccountId(), getAccountHolderName(), getAccountNumber(), getAccountBalance());
     }
 }
