@@ -2,6 +2,8 @@ package com.banking.BankingApp.controller;
 
 import com.banking.BankingApp.entity.AccountEntity;
 import com.banking.BankingApp.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,8 @@ import java.util.List;
 @RestController
 public class AccountController
 {
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+
     @Autowired
     AccountService service;
 
@@ -32,7 +36,7 @@ public class AccountController
         service.addAccount(account);
     }
 
-    @PutMapping("/accounts/{accountNumber}/amount/{amount}")
+    @PutMapping("/accounts/{accountNumber}/depositAmount/{amount}")
     public void deposit(@PathVariable int accountNumber, @PathVariable double amount)
     {
         service.deposit(amount, accountNumber);

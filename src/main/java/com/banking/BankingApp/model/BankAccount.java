@@ -1,13 +1,12 @@
 package com.banking.BankingApp.model;
+import org.hibernate.dialect.Dialect;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Component
 public class BankAccount
 {
@@ -18,6 +17,16 @@ public class BankAccount
     private int accountNumber;
 
     private double accountBalance;
+
+    public BankAccount(int accountId, String accountHolderName, int accountNumber, double accountBalance) {
+        this.accountId = accountId;
+        this.accountHolderName = accountHolderName;
+        this.accountNumber = accountNumber;
+        this.accountBalance = accountBalance;
+    }
+
+    public BankAccount() {
+    }
 
     public int getAccountId() {
         return accountId;

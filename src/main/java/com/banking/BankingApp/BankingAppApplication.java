@@ -1,23 +1,22 @@
 package com.banking.BankingApp;
 
-import com.banking.BankingApp.model.BankAccount;
-import com.banking.BankingApp.service.AccountsService;
+import com.banking.BankingApp.exception.AccountNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.Scanner;
-
+@Slf4j
 @SpringBootApplication
 public class BankingAppApplication
 {
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) throws AccountNotFoundException {
 		ApplicationContext context = SpringApplication.run(BankingAppApplication.class, args);
 
-		BankAccount bankAccount = context.getBean(BankAccount.class);
+		/*BankAccount bankAccount = context.getBean(BankAccount.class);
 		AccountsService service = context.getBean(AccountsService.class);
 
 		Scanner sc = new Scanner(System.in);
@@ -34,7 +33,11 @@ public class BankingAppApplication
 			{
 				System.out.println("Enter amount to Deposit");
 				double amount = Double.parseDouble(sc.nextLine()); // parsing string to double.
-				System.out.println("Your Balance after Deposit is: " + service.deposit(amount, accountNumber));
+				Double amountAfterDeposit = service.deposit(amount, accountNumber);
+				if(amountAfterDeposit != null)
+					System.out.println("Your Balance after Deposit is: " + amountAfterDeposit);
+				else
+					System.out.println("Some error occurred. Try again later");
 				break;
 			}
 			case 2:
@@ -62,6 +65,8 @@ public class BankingAppApplication
 			default:
 				System.out.println("This option does not exist");
 		}
+
+		System.exit(0);*/
 	}
 
 }

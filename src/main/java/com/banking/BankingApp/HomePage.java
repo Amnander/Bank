@@ -17,6 +17,6 @@ public class HomePage
     @RequestMapping("about/")
     public String about()
     {
-        return "We are not a real bank";
+        return "Iam not a real bank";
     }
 }
