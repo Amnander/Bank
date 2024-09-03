@@ -47,7 +47,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>3.6.7.Final</version>
 		</dependency>
-		<!-- Thanks for using https://jar-download.com -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.xerial</groupId>
