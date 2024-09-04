@@ -1,6 +1,7 @@
 package com.banking.BankingApp.service;
 
 import com.banking.BankingApp.entity.AccountEntity;
+import com.banking.BankingApp.exception.AccountNotFoundException;
 import com.banking.BankingApp.model.BankAccount;
 import com.banking.BankingApp.repository.AccountRepository;
 import jakarta.transaction.Transactional;
@@ -22,9 +23,8 @@ public class AccountService
         return accountRepository.findAll();
     }
 
-    public AccountEntity getAccountByAccountId(int accId)
-    {
-        return accountRepository.findById(accId).orElse(new AccountEntity());
+    public AccountEntity getAccountByAccountId(int accId) throws AccountNotFoundException {
+        return accountRepository.findById(accId).orElseThrow(AccountNotFoundException::new);
     }
 
     public AccountEntity getAccountByAccountNumber(int accountNumber) {
@@ -69,11 +69,27 @@ public class AccountService
         account.setAccountBalance(balanceAfterTransfer);
         return accountRepository.save(account);
     }
+
     @Transactional
-    public void delete(int accountNumber)
+    public void deleteByAccountNumber(int accountNumber)
     {
         AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
         accountRepository.delete(account);
     }
+
+    @Transactional
+    public void deleteByAccountId(int AccountId) throws AccountNotFoundException
+    {
+        AccountEntity account = accountRepository.findById(AccountId).orElseThrow(AccountNotFoundException::new);
+        accountRepository.delete(account);
+    }
+
+    public String balance(int accountNumber)
+    {
+        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+        double balance = account.getAccountBalance();
+        return "Your current account balance is: " + balance;
+    }
+
 
 }

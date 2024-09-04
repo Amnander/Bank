@@ -1,6 +1,7 @@
 package com.banking.BankingApp.controller;
 
 import com.banking.BankingApp.entity.AccountEntity;
+import com.banking.BankingApp.exception.AccountNotFoundException;
 import com.banking.BankingApp.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,7 @@ public class AccountController
     }
 
     @GetMapping("/accounts/{accId}")
-    public AccountEntity getAccountByAccountId(@PathVariable int accId)
-    {
+    public AccountEntity getAccountByAccountId(@PathVariable int accId) throws AccountNotFoundException {
         return service.getAccountByAccountId(accId);
     }
 
@@ -61,10 +61,21 @@ public class AccountController
             return service.transfer(amount, accountNumber, otherAccountNumber);
     }
 
-    @PutMapping("/accounts/{accountNumber}/delete")
-    public void delete (@PathVariable int accountNumber)
+    @DeleteMapping("/accounts/{accountNumber}/delete")
+    public void deleteByAccountNumber (@PathVariable int accountNumber)
     {
-        service.delete(accountNumber);
+        service.deleteByAccountNumber(accountNumber);
+    }
+
+    @DeleteMapping("/accounts/{accountId}/delete")
+    public void deleteByAccountId (@PathVariable int accountId) throws AccountNotFoundException {
+        service.deleteByAccountId(accountId);
+    }
+
+    @GetMapping("/accounts/{accountNumber}/balance")
+    public String balance (@PathVariable int accountNumber)
+    {
+        return service.balance(accountNumber);
     }
 
 }
