@@ -25,9 +25,15 @@ public class AccountController
     }
 
     @GetMapping("/accounts/{accId}")
-    public AccountEntity getAccountId(@PathVariable int accId)
+    public AccountEntity getAccountByAccountId(@PathVariable int accId)
     {
         return service.getAccountByAccountId(accId);
+    }
+
+    @GetMapping("/accounts/accountnumber/{accountNumber}")
+    public AccountEntity getAccountByAccountNumber(@PathVariable int accountNumber)
+    {
+        return service.getAccountByAccountNumber(accountNumber);
     }
 
     @PostMapping("/account")
@@ -42,9 +48,23 @@ public class AccountController
     {
         service.deposit(amount, accountNumber);
     }
+
     @PutMapping("/accounts/{accountNumber}/withdrawalAmount/{amount}")
     public void withdraw(@PathVariable int accountNumber, @PathVariable double amount)
     {
         service.withdraw(amount, accountNumber);
     }
+
+    @PutMapping("/accounts/{accountNumber}/transferAmount/{amount}/accountNumber/{otherAccountNumber}")
+    public AccountEntity transfer(@PathVariable int accountNumber, @PathVariable double amount, @PathVariable int otherAccountNumber)
+    {
+            return service.transfer(amount, accountNumber, otherAccountNumber);
+    }
+
+    @PutMapping("/accounts/{accountNumber}/delete")
+    public void delete (@PathVariable int accountNumber)
+    {
+        service.delete(accountNumber);
+    }
+
 }

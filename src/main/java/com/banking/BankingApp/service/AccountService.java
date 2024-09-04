@@ -27,27 +27,26 @@ public class AccountService
         return accountRepository.findById(accId).orElse(new AccountEntity());
     }
 
+    public AccountEntity getAccountByAccountNumber(int accountNumber) {
+        return accountRepository.findByAccountNumber(accountNumber);
+    }
+
     @Transactional
-    public AccountEntity deposit(double amount, int accountNumber)
+    public void deposit(double amount, int accountNumber)
     {
         AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
         double balanceAfterDeposit = account.getAccountBalance() + amount;
         account.setAccountBalance(balanceAfterDeposit);
-        return accountRepository.save(account);
+        accountRepository.save(account);
     }
 
     @Transactional
-    public AccountEntity withdraw(double amount, int accountNumber)
+    public void withdraw(double amount, int accountNumber)
     {
         AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
-        double balanceAfterDeposit = account.getAccountBalance() - amount;
-        account.setAccountBalance(balanceAfterDeposit);
-        return accountRepository.save(account);
-    }
-
-    public AccountEntity transfer(AccountEntity account)
-    {
-        return accountRepository.save(account);
+        double balanceAfterWithdraw = account.getAccountBalance() - amount;
+        account.setAccountBalance(balanceAfterWithdraw);
+        accountRepository.save(account);
     }
 
     @Transactional
@@ -55,4 +54,26 @@ public class AccountService
     {
         accountRepository.save(account);
     }
+
+    @Transactional
+    public AccountEntity transfer(double amount, int accountNumber, int otherAccountNumber)
+    {
+        AccountEntity otherAccount = accountRepository.findByAccountNumber(otherAccountNumber);
+        double balanceAfterDeposit = otherAccount.getAccountBalance() + amount;
+        otherAccount.setAccountBalance(balanceAfterDeposit);
+        accountRepository.save(otherAccount);
+
+        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+
+        double balanceAfterTransfer = account.getAccountBalance() - amount;
+        account.setAccountBalance(balanceAfterTransfer);
+        return accountRepository.save(account);
+    }
+    @Transactional
+    public void delete(int accountNumber)
+    {
+        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+        accountRepository.delete(account);
+    }
+
 }
