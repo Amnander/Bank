@@ -2,94 +2,94 @@ package com.banking.BankingApp.service;
 
 import com.banking.BankingApp.entity.AccountEntity;
 import com.banking.BankingApp.exception.AccountNotFoundException;
-import com.banking.BankingApp.model.BankAccount;
 import com.banking.BankingApp.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 import java.util.List;
+import static java.util.Optional.ofNullable;
 
 @Service
-public class AccountService
-{
+public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    List<BankAccount> bankAccounts = Arrays.asList(new BankAccount(101,"Aman",3, 2000.00), new BankAccount(102,"Sukh",7, 1000.00));
     public List<AccountEntity> getAccounts()
     {
         return accountRepository.findAll();
     }
 
-    public AccountEntity getAccountByAccountId(int accId) throws AccountNotFoundException {
+    public AccountEntity getAccountByAccountId(int accId) throws AccountNotFoundException
+    {
         return accountRepository.findById(accId).orElseThrow(AccountNotFoundException::new);
     }
 
-    public AccountEntity getAccountByAccountNumber(int accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber);
-    }
-
     @Transactional
-    public void deposit(double amount, int accountNumber)
-    {
-        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+    public void deposit(double amount, int accountNumber) throws AccountNotFoundException {
+        AccountEntity account = getAccountByAccountNumber(accountNumber);
         double balanceAfterDeposit = account.getAccountBalance() + amount;
         account.setAccountBalance(balanceAfterDeposit);
         accountRepository.save(account);
     }
 
     @Transactional
-    public void withdraw(double amount, int accountNumber)
-    {
-        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+    public void withdraw(double amount, int accountNumber) throws AccountNotFoundException {
+        AccountEntity account = getAccountByAccountNumber(accountNumber);
         double balanceAfterWithdraw = account.getAccountBalance() - amount;
         account.setAccountBalance(balanceAfterWithdraw);
         accountRepository.save(account);
+        if (account.getAccountBalance()<amount)
+        {
+            throw new RuntimeException("Insufficient Funds");
+        }
+
     }
 
     @Transactional
-    public void addAccount(AccountEntity account)
-    {
+    public void addAccount(AccountEntity account) {
         accountRepository.save(account);
     }
 
     @Transactional
-    public AccountEntity transfer(double amount, int accountNumber, int otherAccountNumber)
-    {
-        AccountEntity otherAccount = accountRepository.findByAccountNumber(otherAccountNumber);
+    public AccountEntity transfer(double amount, int accountNumber, int otherAccountNumber) throws AccountNotFoundException {
+        AccountEntity account = getAccountByAccountNumber(accountNumber);
+        AccountEntity otherAccount = getAccountByAccountNumber(otherAccountNumber);
+        if (account.getAccountBalance()<amount)
+        {
+            throw new RuntimeException("Insufficient Funds");
+        }
+
         double balanceAfterDeposit = otherAccount.getAccountBalance() + amount;
         otherAccount.setAccountBalance(balanceAfterDeposit);
         accountRepository.save(otherAccount);
-
-        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
-
         double balanceAfterTransfer = account.getAccountBalance() - amount;
         account.setAccountBalance(balanceAfterTransfer);
         return accountRepository.save(account);
+
     }
 
     @Transactional
-    public void deleteByAccountNumber(int accountNumber)
-    {
-        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+    public void deleteByAccountNumber(int accountNumber) throws AccountNotFoundException {
+        AccountEntity account = ofNullable(accountRepository.findByAccountNumber(accountNumber)).orElseThrow(AccountNotFoundException::new);
         accountRepository.delete(account);
     }
 
     @Transactional
-    public void deleteByAccountId(int AccountId) throws AccountNotFoundException
-    {
+    public void deleteByAccountId(int AccountId) throws AccountNotFoundException {
         AccountEntity account = accountRepository.findById(AccountId).orElseThrow(AccountNotFoundException::new);
         accountRepository.delete(account);
     }
 
-    public String balance(int accountNumber)
-    {
-        AccountEntity account = accountRepository.findByAccountNumber(accountNumber);
+    public String balance(int accountNumber) throws AccountNotFoundException {
+        AccountEntity account = getAccountByAccountNumber(accountNumber);
         double balance = account.getAccountBalance();
         return "Your current account balance is: " + balance;
     }
 
-
+    public AccountEntity getAccountByAccountNumber(int accountNumber) throws AccountNotFoundException
+    {
+        return ofNullable(accountRepository.findByAccountNumber(accountNumber)).orElseThrow(AccountNotFoundException::new);
+    }
 }
+
+

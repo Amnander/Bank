@@ -2,11 +2,97 @@
 <html lang="en"
 xmlns:th="http://www.thymeleaf.org"
 >
+
 <head>
-    <meta charset="UTF-8">
-    <title>Thymeleaf example</title>
+    <title>Welcome to Home Bank</title>
+</head>
+<head>
+    <title>Welcome to Home Bank</title>
+</head>
+
+<body>
+<h2>Create Account</h2>
+
+<form action="/account/Add" method="post">
+    <label for="accountHolderName">Account Holder Name:</label>
+    <input type="text" id="accountHolderName" name="accountHolderName" required>
+    <button type="submit">Create</button>
+</form>
+</body>
+
+<head>
+    <title>Deposit Amount</title>
 </head>
 <body>
-<h2 th:text="${message}"></h2>
+<h2>Deposit Amount</h2>
+<form action="/account/deposit" method="post">
+    <label for="accountNumber">Account Number:</label>
+    <input type="number" id="accountNumber" name="accountNumber" required>
+    <br>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required step="0.01">
+    <button type="submit">Deposit</button>
+</form>
+</body>
+
+
+<head>
+    <title>Withdraw Money</title>
+</head>
+
+
+<body>
+
+<h2>Withdraw Money</h2>
+
+<form action="/account/withdraw" method="post">
+    <label for="accountNumber">Account Number:</label>
+    <input type="number" id="accountNumber" name="accountNumber" required>
+    <br>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required step="0.01">
+    <button type="submit">Withdraw</button>
+</form>
+</body>
+
+<head>
+    <title>Transfer Money</title>
+</head>
+
+<body>
+
+<h2>Transfer Money</h2>
+
+<form action="/account/transfer" method="post">
+    <label for="fromAccountNumber">From Account Number:</label>
+    <input type="number" id="fromAccountNumber" name="fromAccountNumber" required>
+    <br>
+    <label for="toAccountNumber">To Account Number:</label>
+    <input type="number" id="toAccountNumber" name="toAccountNumber" required>
+    <br>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount="amountrequired step="0.01">
+    <button type="submit">Transfer</button>
+</form>
+</body>
+
+<head>
+    <title>Account Balance</title>
+</head>
+<body>
+<h2>Account Balance</h2>
+<p th:if="${account != null}">
+    Account ID: <span th:text="${account.id}"></span><br>
+    Account Holder: <span th:text="${account.accountHolderName}"></span><br>
+    Balance: $<span th:text="${account.balance}"></span><br>
+</p>
+<p th:if="${account == null}">
+    Account not found or operation failed.
+</p>
+<a href="/account/create">Add Account</a> |
+<a href="/account/deposit">Deposit</a> |
+<a href="/account/withdraw">Withdraw</a> |
+<a href="/account/transfer">Transfer</a> |
+<a href="/account/balance?accountId=">View Balance</a>
 </body>
 </html>

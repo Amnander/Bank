@@ -1,8 +1,6 @@
 package com.banking.BankingApp.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +12,7 @@ import java.util.Objects;
 public class AccountEntity
 {
     @Id //unique by default
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
 
     private String accountHolderName;
@@ -23,35 +22,43 @@ public class AccountEntity
 
     private double accountBalance;
 
-    public int getAccountId() {
+    public int getAccountId()
+    {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(int accountId)
+    {
         this.accountId = accountId;
     }
 
-    public String getAccountHolderName() {
+    public String getAccountHolderName()
+    {
         return accountHolderName;
     }
 
-    public void setAccountHolderName(String accountHolderName) {
+    public void setAccountHolderName(String accountHolderName)
+    {
         this.accountHolderName = accountHolderName;
     }
 
-    public int getAccountNumber() {
+    public int getAccountNumber()
+    {
         return accountNumber;
     }
 
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(int accountNumber)
+    {
         this.accountNumber = accountNumber;
     }
 
-    public double getAccountBalance() {
+    public double getAccountBalance()
+    {
         return accountBalance;
     }
 
-    public void setAccountBalance(double accountBalance) {
+    public void setAccountBalance(double accountBalance)
+    {
         this.accountBalance = accountBalance;
     }
 
